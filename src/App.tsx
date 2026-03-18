@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { motion } from 'motion/react';
 import { 
   Hammer, 
   Menu, 
@@ -16,18 +16,70 @@ import {
   Globe 
 } from 'lucide-react';
 
+// Error Boundary Component
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Uncaught error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-background-dark flex items-center justify-center p-6 text-center">
+          <div className="max-w-md w-full bg-white/5 border border-primary/20 rounded-2xl p-8 backdrop-blur-md">
+            <h2 className="text-2xl font-bold text-primary mb-4">Something went wrong</h2>
+            <p className="text-slate-400 mb-6">
+              The application encountered an error. Please try refreshing the page.
+            </p>
+            <pre className="text-xs text-red-400 bg-black/30 p-4 rounded-lg overflow-auto text-left mb-6">
+              {this.state.error?.message}
+            </pre>
+            <button 
+              onClick={() => window.location.reload()}
+              className="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 const App: React.FC = () => {
   const revealVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { duration: 0.8, ease: "easeOut" as const }
     }
   };
 
   return (
-    <div className="bg-background-dark text-slate-100 min-h-screen font-sans selection:bg-primary selection:text-white">
+    <ErrorBoundary>
+      <div className="bg-background-dark text-slate-100 min-h-screen font-sans selection:bg-primary selection:text-white">
       {/* Header */}
       <header className="fixed top-0 z-50 w-full bg-background-dark/90 backdrop-blur-md border-b border-primary/20">
         <div className="flex items-center p-4 justify-between max-w-7xl mx-auto">
@@ -323,6 +375,7 @@ const App: React.FC = () => {
         </div>
       </footer>
     </div>
+    </ErrorBoundary>
   );
 };
 
