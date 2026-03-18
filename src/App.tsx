@@ -83,7 +83,7 @@ export default function App() {
               <h2 className="text-primary text-sm font-bold tracking-[0.2em] uppercase">The Artisan</h2>
               <h3 className="text-3xl md:text-4xl font-bold leading-tight text-primary">Passion for detail, commitment to quality</h3>
               <p className="text-slate-400 text-lg leading-relaxed">
-                With over 15 years of experience in fine woodworking, carpenter combines traditional hand-joinery techniques with the latest in design and finishes. Each piece is treated as a unique work of art, built to last for generations.
+                With over 20 years of experience in fine woodworking, carpenter combines traditional hand-joinery techniques with the latest in design and finishes. Each piece is treated as a unique work of art, built to last for generations.
               </p>
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="border-l-2 border-primary pl-4">
