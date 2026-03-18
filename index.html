@@ -2,22 +2,6 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <script>
-        // Safety check to prevent libraries from trying to overwrite the read-only window.fetch property
-        if (typeof window !== 'undefined' && window.fetch) {
-            try {
-                const originalFetch = window.fetch;
-                Object.defineProperty(window, 'fetch', {
-                    get: function() { return originalFetch; },
-                    set: function() { 
-                        console.warn('Attempt to overwrite window.fetch ignored to prevent TypeError.');
-                    },
-                    configurable: true,
-                    enumerable: true
-                });
-            } catch (e) {}
-        }
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carpenter - Fine Woodworking</title>
     <!-- Favicon -->
