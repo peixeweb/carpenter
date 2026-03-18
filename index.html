@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="dark">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
+    <script>
+        // Safety check to prevent libraries from trying to overwrite the read-only window.fetch property
+        if (typeof window !== 'undefined' && window.fetch) {
+            try {
+                const originalFetch = window.fetch;
+                Object.defineProperty(window, 'fetch', {
+                    get: function() { return originalFetch; },
+                    set: function() { 
+                        console.warn('Attempt to overwrite window.fetch ignored to prevent TypeError.');
+                    },
+                    configurable: true,
+                    enumerable: true
+                });
+            } catch (e) {}
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rodrigues   fishweb - Marcenaria Fina</title>
+    <title>Rodrigues   fishweb - Carpenter</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,17 +56,23 @@
             font-family: "Work Sans", sans-serif;
             color: #f1f5f9;
             overflow-x: hidden;
-            min-height: 100vh;
+            min-height: max(884px, 100dvh);
         }
         
-        /* Animações de entrada */
+        /* Basic animations to replace motion */
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
         }
         
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .reveal {
@@ -62,6 +84,14 @@
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
         }
 
         .backdrop-blur-md {
@@ -86,132 +116,273 @@
     </header>
 
     <main class="pt-16">
-        <!-- Hero Section -->
+        <!-- Section 1: Hero -->
         <section class="relative">
-            <div class="flex min-h-[75vh] flex-col gap-6 bg-cover bg-center bg-no-repeat items-start justify-end px-6 pb-16 relative overflow-hidden" 
-                style="background-image: linear-gradient(rgba(33, 24, 17, 0.4) 0%, rgba(33, 24, 17, 0.9) 100%), url('https://images.unsplash.com/photo-1581421300552-3395347af481?auto=format&fit=crop&q=80&w=1920')">
+            <div 
+                class="flex min-h-[751px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-start justify-end px-6 pb-16 relative overflow-hidden" 
+                style="background-image: linear-gradient(rgba(33, 24, 17, 0.4) 0%, rgba(33, 24, 17, 0.9) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgbnsUDZDEkakETlmJUUfAZSlmb--DpXzByFtY7nimwpp7PvXcekHiZnf2xkbZbqy81MrehPmpA13nrWxXUzQtUPRrTvxK7NWaj4TKICoVVOtn1iF5iT65eqjqgVLpBl41ZZFMAIicmeBNyyGJWjT8OKSvTMzBHxLo-PAZbSOeQ7fHDc2eEMCJyNhYfIT2VVNWA_DWmoegvx0Uasb-LK5q3Fg--6cn8cDwq0Hfr0l5loz0SzSsFlarXlZpnYoiUihaFnKxQzA2OdM8')"
+            >
                 <div class="flex flex-col gap-4 max-w-2xl fade-in-up">
-                    <span class="inline-block w-fit px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded">Excelência em Madeira</span>
+                    <span class="inline-block w-fit px-3 py-1 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded">Excellence in Wood</span>
                     <h1 class="text-white text-5xl font-black leading-tight tracking-[-0.033em] md:text-7xl">
-                        Transformando Madeira em Arte
+                        Transforming Wood into Art
                     </h1>
                     <h2 class="text-slate-300 text-lg font-normal leading-relaxed md:text-xl">
-                        Serviços especializados de marcenaria para sua casa e escritório. Peças exclusivas com acabamento impecável.
+                        Specialized carpentry services for your home and office. Exclusive pieces with impeccable finish.
                     </h2>
                 </div>
                 <button class="flex min-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-white text-lg font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95">
-                    Solicitar Orçamento
+                    Request a Quote
                 </button>
             </div>
         </section>
 
-        <!-- About Section -->
+        <!-- Section 2: About -->
         <section class="py-20 px-6 max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6 reveal">
-                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase">O Artesão</h2>
-                    <h3 class="text-3xl md:text-4xl font-bold leading-tight text-primary">Paixão por detalhes, compromisso com a qualidade</h3>
+                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase">The Artisan</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold leading-tight text-primary">Passion for detail, commitment to quality</h3>
                     <p class="text-slate-400 text-lg leading-relaxed">
-                        Com mais de 20 anos de experiência em marcenaria fina, combinamos técnicas tradicionais de encaixe manual com o que há de mais moderno em design e acabamentos.
+                        With over 20 years of experience in fine woodworking, carpenter combines traditional hand-joinery techniques with the latest in design and finishes. Each piece is treated as a unique work of art, built to last for generations.
                     </p>
                     <div class="grid grid-cols-2 gap-4 pt-4">
                         <div class="border-l-2 border-primary pl-4">
                             <span class="block text-2xl font-bold text-white">500+</span>
-                            <span class="text-slate-500 text-sm">Projetos Entregues</span>
+                            <span class="text-slate-500 text-sm">Projects Delivered</span>
                         </div>
                         <div class="border-l-2 border-primary pl-4">
                             <span class="block text-2xl font-bold text-white">100%</span>
-                            <span class="text-slate-500 text-sm">Madeira Certificada</span>
+                            <span class="text-slate-500 text-sm">Certified Wood</span>
                         </div>
                     </div>
                 </div>
-                <div class="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl border border-primary/10 reveal">
-                    <img alt="Ferramentas" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800">
+                <div class="relative rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[16/10] shadow-2xl border border-primary/10 group reveal">
+                    <img 
+                        alt="Woodworking tools" 
+                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" 
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_gdn5E1w3o7LVCNdNikjsa-7eE4G6_ieaTIHHtSDN0IKuaZY9ZldGi30QWgxq2CZBIdRAfRk63iT6DLIP9saHYvY0m0lRG6HKJTm8R7OLOatoquq1WbXDz8b95k2TXsUw0Kld1q1Y7GNhUpwQArBVb4eUG777ZI4miwDPgqoOT8z10dc-_81QOBkLpEvMXq3zbb_LQH1F6t659E-ESlVBW0lOR-glRX6jHSBllTGON71KqXS4_ol3HVpGWZu5bhqSVXjpV_PVApNw"
+                        referrerpolicy="no-referrer"
+                    />
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
+        <!-- Section 3: Services -->
         <section class="py-20 bg-background-dark/50 px-6">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 reveal">
-                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Especialidades</h2>
-                    <h3 class="text-3xl md:text-4xl font-bold text-white">Nossos Serviços</h3>
+                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Specialties</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">Our Services</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
                     <div class="bg-background-dark border border-primary/10 p-8 rounded-2xl hover:border-primary transition-all group hover:-translate-y-2 reveal">
                         <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                             <i data-lucide="armchair" class="w-8 h-8"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-3">Móveis Planejados</h4>
-                        <p class="text-slate-400">Design personalizado para cozinhas, quartos e escritórios, otimizando seu espaço.</p>
+                        <h4 class="text-xl font-bold text-white mb-3">Custom Furniture</h4>
+                        <p class="text-slate-400">Custom design for kitchens, bedrooms, and offices, optimizing your space with elegance.</p>
                     </div>
+                    <!-- Service 2 -->
                     <div class="bg-background-dark border border-primary/10 p-8 rounded-2xl hover:border-primary transition-all group hover:-translate-y-2 reveal">
                         <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                             <i data-lucide="history" class="w-8 h-8"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-3">Restauração</h4>
-                        <p class="text-slate-400">Devolvemos a vida e o brilho original a móveis antigos e peças de valor sentimental.</p>
+                        <h4 class="text-xl font-bold text-white mb-3">Restoration</h4>
+                        <p class="text-slate-400">We bring back the life and original shine to antique furniture and pieces of sentimental value.</p>
                     </div>
+                    <!-- Service 3 -->
                     <div class="bg-background-dark border border-primary/10 p-8 rounded-2xl hover:border-primary transition-all group hover:-translate-y-2 reveal">
                         <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                             <i data-lucide="layers" class="w-8 h-8"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-3">Estruturas</h4>
-                        <p class="text-slate-400">Construção de decks, pergolados e telhados com as melhores madeiras do mercado.</p>
+                        <h4 class="text-xl font-bold text-white mb-3">Wood Structures</h4>
+                        <p class="text-slate-400">Construction of decks, pergolas, and roofs with the best wood on the market.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section class="py-20 px-6 max-w-7xl mx-auto text-center reveal">
-            <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Contato</h2>
-            <h3 class="text-3xl md:text-4xl font-bold text-primary mb-12">Vamos iniciar seu projeto?</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
-                    <i data-lucide="phone" class="w-8 h-8 text-primary mx-auto mb-4"></i>
-                    <h5 class="text-white font-bold mb-2">Telefone</h5>
-                    <p class="text-slate-400 text-sm">+55 (11) 99999-9999</p>
+        <!-- Section 4: Portfolio -->
+        <section class="py-20 px-6 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 reveal">
+                <div>
+                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Gallery</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-primary">Project Portfolio</h3>
                 </div>
-                <div class="p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
-                    <i data-lucide="mail" class="w-8 h-8 text-primary mx-auto mb-4"></i>
-                    <h5 class="text-white font-bold mb-2">Email</h5>
-                    <p class="text-slate-400 text-sm">contato@rodrigues.com</p>
+                <button class="text-primary font-bold flex items-center gap-2 hover:underline">
+                    View all projects <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project 1 -->
+                <div class="group relative overflow-hidden rounded-2xl aspect-[4/5] reveal">
+                    <img alt="Minimalist Kitchen" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtkW6vQMzgxdELFIr574ZDsqGoAlQYfRu_KUAfy9bpxqwVzm0sHGqDB1mVJIBLo6ovg_LHw_zMLPybOl5Bm9qb9VA4JMFQxY_e9GhWTrPS4zR3oXdlScCAsSo1TNW_CHroxvG2CUFf-qo5GyygtB8nDkubmTQT6zGYEU3O_tMwuIfIAeHCDWVjtAmDYfWFvwrDYFT97zMml6qwTGvXJJMnDbwV-3VtcBwmelzJMXunnhOTVaiS0wCgQm4mIOL9VSHTZM8O0NK3d5fe" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                        <h5 class="text-white font-bold text-lg">Minimalist Kitchen</h5>
+                        <p class="text-slate-300 text-sm">American Oak</p>
+                    </div>
                 </div>
-                <div class="p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
-                    <i data-lucide="map-pin" class="w-8 h-8 text-primary mx-auto mb-4"></i>
-                    <h5 class="text-white font-bold mb-2">Endereço</h5>
-                    <p class="text-slate-400 text-sm">São Paulo, SP - Brasil</p>
+                <!-- Project 2 -->
+                <div class="group relative overflow-hidden rounded-2xl aspect-[4/5] reveal">
+                    <img alt="Executive Office" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgfSBw_r5d70DC04dtg851eXlwTkSarWtjETD3IAB373Dzo7J50ZNARfmMiGf4M2RrtINDTm3DVuhv54qvoVibuJbp_Bsm6LkCRSlW7_aaRI5QBhI2QggYSdi7QsFv6IDk-jXGs00o2V7PnqYWwKOQ9Qun9LvbCBxFyqwiZfRQdnBolN3ORgZyQDZTawbZGL9h_KZluVxNYk7rcCPOf15lpGp7LsM_irWZmiVF9PJMRwUy3tIub9OmzDpfZTLIQgX4E-aKBFgpAh4K" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                        <h5 class="text-white font-bold text-lg">Executive Office</h5>
+                        <p class="text-slate-300 text-sm">Solid Walnut</p>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="group relative overflow-hidden rounded-2xl aspect-[4/5] reveal">
+                    <img alt="Live Edge Table" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Q2GiIHyMk-5M_oxR1jHlThPW3uvkqKwuFFUSUg10_BY9o-DTvNlbPeWdC_hSilJeTL_mEv4zXRG0fO4ESjSV5YQJZ1ChkjxRFEs_OVcXdpqaFIV6Ciiztc6y382cAodJw_V6RIczCIjNrD8K1VQ1zRRPdnVM74sHzz_5KPbX0TncXEZ7HaYaorMvvrj9ZtRQzRO5hUgOSfbanDkrvmNVfm9twwZOrJlmnW6gLt8ruHVMTkF1FGbo0PF9gawx_tzHKednL6qLm7g0" referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                        <h5 class="text-white font-bold text-lg">Live Edge Table</h5>
+                        <p class="text-slate-300 text-sm">Reclaimed Wood</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Testimonials -->
+        <section class="py-20 bg-background-dark px-6">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-12">Testimonials</h2>
+                <div class="space-y-12">
+                    <div class="flex flex-col items-center">
+                        <i data-lucide="quote" class="text-primary w-12 h-12 mb-6"></i>
+                        <p class="text-xl md:text-2xl text-slate-200 italic mb-8">
+                            "The work of carpenter exceeded all my expectations. The custom cabinet turned out perfect and the attention to detail in the finish is visible from afar. Exemplary professionalism!"
+                        </p>
+                        <div class="flex items-center gap-4 text-left">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">RM</div>
+                            <div>
+                                <h6 class="text-white font-bold">Richard Mendes</h6>
+                                <p class="text-slate-500 text-sm">Architect</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Contact -->
+        <section class="py-20 px-6 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto reveal">
+                <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Contact</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-primary mb-12">Shall we start your project?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center gap-4 p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold mb-2">Address</h5>
+                            <p class="text-slate-400 text-sm">1234 Wood Ave - Industrial District, San Francisco, CA</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-4 p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                            <i data-lucide="phone" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold mb-2">Phone / WhatsApp</h5>
+                            <p class="text-slate-400 text-sm">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-4 p-6 bg-background-dark/30 border border-primary/10 rounded-2xl">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                            <i data-lucide="mail" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold mb-2">Email</h5>
+                            <p class="text-slate-400 text-sm">contact@carpenter.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Additional Gallery -->
+        <section class="py-12 px-6 bg-background-dark/20">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="rounded-2xl overflow-hidden aspect-video shadow-lg border border-primary/5 reveal">
+                    <img src="https://azim.hostlin.com/Craftmax/assets/images/project/project-2.jpg" alt="Project 1" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerpolicy="no-referrer">
+                </div>
+                <div class="rounded-2xl overflow-hidden aspect-video shadow-lg border border-primary/5 reveal">
+                    <img src="https://azim.hostlin.com/Craftmax/assets/images/project/project-5.jpg" alt="Project 2" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerpolicy="no-referrer">
+                </div>
+                <div class="rounded-2xl overflow-hidden aspect-video shadow-lg border border-primary/5 reveal">
+                    <img src="https://azim.hostlin.com/Craftmax/assets/images/project/project-3.jpg" alt="Project 3" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerpolicy="no-referrer">
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-background-dark border-t border-primary/20 py-12 px-6 text-center">
+    <footer class="bg-background-dark border-t border-primary/20 pt-16 pb-8 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <i data-lucide="hammer" class="text-primary w-8 h-8"></i>
-                <h2 class="text-white text-2xl font-bold">carpenter</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="hammer" class="text-primary w-8 h-8"></i>
+                        <h2 class="text-white text-2xl font-bold">carpenter</h2>
+                    </div>
+                    <p class="text-slate-500 text-sm">Wood craftsmanship with Premium quality. Creating unique environments through manual talent.</p>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-6">Quick Links</h5>
+                    <ul class="space-y-4 text-slate-500 text-sm">
+                        <li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Our Services</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Photo Gallery</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Quotes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-6">Follow Us</h5>
+                    <div class="flex gap-4">
+                        <a class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+                            <i data-lucide="share-2" class="w-5 h-5"></i>
+                        </a>
+                        <a class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#">
+                            <i data-lucide="globe" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <p class="text-slate-500 text-sm mb-8">Marcenaria de alto padrão com qualidade Premium.</p>
-            <p class="text-slate-600 text-xs">© 2026 Rodrigues   fishweb. Todos os direitos reservados.</p>
+            <div class="border-t border-primary/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 text-xs">
+                <p>© 2026 carpenter - Fine Woodworking. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a class="hover:underline" href="#">Privacy Policy</a>
+                    <a class="hover:underline" href="#">Terms of Use</a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Inicializa os ícones
+        // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Lógica simples de revelação ao rolar
+        // Simple scroll reveal logic
+        const observerOptions = {
+            threshold: 0.1
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
